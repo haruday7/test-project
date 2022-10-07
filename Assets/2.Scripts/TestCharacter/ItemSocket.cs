@@ -9,7 +9,13 @@ public class ItemSocket : MonoBehaviour
         Inventory,
         Equipment
     }
+    public enum ePart
+    {
+        Mustache,
+        Hair
+    }
     public eType type;
+    public ePart part;
     public Item Item
     {
         get;

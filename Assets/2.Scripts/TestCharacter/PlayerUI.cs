@@ -36,7 +36,6 @@ public class PlayerUI : MonoBehaviour
         for (int i = 0; i < childObjs.Length; i++)
         {
             childObjs[i] = this.player.gameObject.transform.GetChild(i).gameObject;
-            Debug.Log(childObjs[i].name);
         }
         for (int i = 0; i < childObjs.Length; i++)
         {
@@ -111,6 +110,8 @@ public class PlayerUI : MonoBehaviour
                 }
             }
         }
+        Debug.Log(item.gameObject.name);
+        Debug.Log(obj.name);
         obj.SetActive(true);
     }
     public void BeginDrag()

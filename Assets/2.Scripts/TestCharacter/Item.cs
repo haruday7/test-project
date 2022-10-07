@@ -58,45 +58,50 @@ public class Item : MonoBehaviour , IBeginDragHandler, IDragHandler, IEndDragHan
         PlayerUI uI = FindObjectOfType<PlayerUI>();
         ItemSocket socket = uI.FindNearSocket(this.transform);
         float dir = Vector2.Distance(this.transform.position, socket.transform.position);
-        if (dir < 70f)
+        if(socket.type == ItemSocket.eType.Inventory)
         {
-            if (socket.CheckItem())
+            if (dir < 70f)
             {
-                uI.inven.ChangeItem(this, this.socket, socket);
+                if (socket.CheckItem())
+                {
+                    uI.inven.ChangeItem(this, this.socket, socket);
+                }
+                else
+                {
+                    this.socket.SetItem(null);
+                    socket.SetItem(this);
+                }
             }
             else
             {
-                this.socket.SetItem(null);
-                socket.SetItem(this);
+                this.gameObject.transform.SetParent(this.socket.transform);
+                RectTransform rect = (RectTransform)this.transform;
+                rect.anchoredPosition = new Vector2(0, 0);
             }
         }
-        else
+        else if (socket.type == ItemSocket.eType.Equipment)
         {
-            this.gameObject.transform.SetParent(this.socket.transform);
-            RectTransform rect = (RectTransform)this.transform;
-            rect.anchoredPosition = new Vector2(0, 0);
+            if (dir < 70f)
+            {
+                if (socket.CheckItem())
+                {
+                    Debug.Log("체인지");
+                    uI.equip.ChangeEquipItem(this, this.socket, socket);
+                }
+                else
+                {
+                    Debug.Log("넣기");
+                    this.socket.SetItem(null);
+                    uI.equip.SetEquipItem(this, socket);
+                }
+            }
+            else
+            {
+                this.gameObject.transform.SetParent(this.socket.transform);
+                RectTransform rect = (RectTransform)this.transform;
+                rect.anchoredPosition = new Vector2(0, 0);
+            }
         }
-        //else if(socket.type == ItemSocket.eType.Equipment)
-        //{
-        //    if (dir < 70f)
-        //    {
-        //        if (socket.CheckItem())
-        //        {
-        //            uI.equip.ChangeEquipItem(this, this.socket, socket);
-        //        }
-        //        else
-        //        {
-        //            uI.equip.SetEquipItem(this, socket);
-        //            this.socket.SetItem(null);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        this.gameObject.transform.SetParent(this.socket.transform);
-        //        RectTransform rect = (RectTransform)this.transform;
-        //        rect.anchoredPosition = new Vector2(0, 0);
-        //    }
-        //}
     }
     private void DropItem()
     {

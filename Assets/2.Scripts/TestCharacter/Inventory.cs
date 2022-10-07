@@ -6,6 +6,7 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     public PlayerUI playerUI;
+    public Equipment equipment;
 
     private List<ItemSocket> listInvenSocket = new List<ItemSocket>();
     public ItemSocket[] invenSockets;
